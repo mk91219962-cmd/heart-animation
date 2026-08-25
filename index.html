@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Math Animation</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.6.0/p5.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+<script>
+let i = 0;
+let colors = ["red", "blue", "lime", "yellow", "cyan", "magenta", "orange", "pink"];
+
+function setup() {
+  createCanvas(windowWidth, windowHeight);
+  background(0);
+  angleMode(RADIANS);
+  frameRate(38); // سرعة متوازنة جداً توازي سرعة بايثون 1.9
+}
+
+function draw() {
+  if (i < 120) {
+    let angle = i * (TWO_PI) / 120;
+    
+    // مقاس مضبوط ومناسب للموبايل والكمبيوتر
+    let scaleFactor = min(width, height) / 34; 
+    
+    let x = width / 2 + (16 * pow(sin(angle), 3)) * scaleFactor;
+    let y = height / 2 - ((13 * cos(angle) - 5 * cos(2 * angle) - 2 * cos(3 * angle) - cos(4 * angle)) * scaleFactor);
+    
+    stroke(random(colors));
+    strokeWeight(2);
+    line(width / 2, height / 2, x, y);
+    
+    // رسم النجمة في النهاية
+    push();
+    translate(x, y);
+    for (let a = 0; a < 8; a++) {
+      line(0, 0, 10, 0);
+      rotate(PI / 4);
+    }
+    pop();
+    
+    i++;
+  }
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  background(0);
+  i = 0;
+}
+</script>
+</body>
+</html>
